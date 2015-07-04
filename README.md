@@ -1,19 +1,28 @@
 Insight Data Engineering - Coding Challenge [Solution]
 ===========================================================
 
-In the most general setting, computing the median is difficult to scale.  One approach
-would be to maintain the data in sorted order and track the middle element.  Since
-each insert into the sorted list would require binary search, such an
-approach would cost O(log N) where N is the number data points.  Clearly, this
-won't scale.
 
-In this problem, however, we can take advantage of the fact that a tweet can have
-at most 140 characters.  In particular, using all printable non-whitespace ASCII characters, the tweet with the highest possible unique wordcount is:
+
+# Solution description
+
+## Counting words for tweets
+Using a key-value dictionary, it is straightforward to implement an $\mathcal{O}(1)$ time complexity word counter.
+When a new tweet arrives, we take each word and check if it is present in the dictionary.  If it's not found,
+we add the word as new key in the dictionary and set the value to 1.  If the word is already in the dictionary, we increment its value by 1.
+Since dictionaries provide average amortized constant-time lookup and insert, this solution is $\mathcal{O}(1)$ in time.  In terms of space complexity, the dictionary size will be proportional to the vocabulary of all the tweets recieved so far.  
+
+
+## Tweet rolling median words per tweet
+In general, computation of a median does not scale well.  One approach is to maintain 
+the data in sorted order and track the middle element.  Since each insert into the sorted 
+list requires a binary search, such an approach has an average $\mathcal{O}(\mathcal{log} N)$ complexity where N is the number data points
+seen so far.  For very large $N$, such an approach is impractical, particularly if we need to report medians in real time.
+
+In this problem, however, a simple and scalable solution is possible once we recognize that tweets are limited to 140 characters. In particular, using all printable non-whitespace ASCII characters, the tweet with the highest possible unique wordcount is:
 
     a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~
 
-This tweet has length 135 and contains 68 unique words (per the rules of this challenge).  If we have two more unique characters, we can construct a valid tweet of length 139, with 70 unique words.  So 70 is the largest possible unique word count for a tweet.  This fact can allow us to compute the running median in constant time.  
-
+This tweet has length 135 and contains 68 unique words (per the rules of this challenge).  If we have two more unique characters, we can construct a valid tweet of length 139, with 70 unique words.  Thus, we can assume that the unique word count for any tweet is always an integer in the range $0$ to $70$ inclusive.  This fact is sufficient to obtain an $\mathcal{O}(1)$ solution in space and time.
 
 Here is the approach:
 
