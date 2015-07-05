@@ -31,7 +31,7 @@ class TestScaling(unittest.TestCase):
             if i%1000==0:
                 start = time.process_time()
                 med = H.median()
-                print("Iteration: {0}, Time: {1}, Value: {2}".format(i,start-time.process_time(),med))
+                print("Iteration: {0}, Time: {1}, Value: {2}".format(i,time.process_time()-start,med))
 
 if __name__ == '__main__':
     unittest.main()
