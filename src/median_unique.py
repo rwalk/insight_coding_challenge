@@ -1,17 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """
-Compute the running median unique word count/per tweet for a collection of tweets.
+Compute the running median unique word count per tweet for a collection of tweets.
 
 Assumptions:
     - Each tweet contains only ASCII characters.
     - A word is defined as anything separated by whitespace.
     - Any punctuation is part of the word itself.
-
-A tweet has at most 140 characters.  That leaves upto 70 unique words per tweet.
-Thus unique word count per tweet takes on a discrete set of values in the range
-0-70.  A histogram counts the number of occurences 
-
 
 Created on Fri Jul  3 08:01:17 2015
 @author: Ryan Walker
@@ -23,17 +18,23 @@ class Histogram:
         allows for constant time computation of order statistics.
     '''
     def __init__(self, N):
+        '''Initialize histogram object           
+        
+        Arguments:
+        N (int) -- value range for the histogram
+        '''
         self.data = [0]*N
         self.size = 0
         self.N = N
 
     def insert(self,value):
+        '''Insert observed value into histogram'''
         assert(0<=value and value<self.N)
         self.data[value]+=1    
         self.size+=1
             
     def order_statistic(self, n):
-        '''find the n-th order value in the histogram.'''
+        '''find the n-th order statistic in the histogram.'''
         value, n_observed = 0,0
         # Walk the array until we pass the n-th order value
         for i in range(len(self.data)):

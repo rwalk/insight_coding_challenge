@@ -14,7 +14,7 @@ Created on Fri Jul  3 08:01:17 2015
 import argparse
 
 class WordCounter:
-    '''A very simple class to hold word counts'''
+    '''Simple class to hold word counts'''
     def __init__(self):
         self.words = {}
 
@@ -25,7 +25,7 @@ class WordCounter:
             self.words[word] += 1
     
     def items(self):
-        ''' a custom iterator for word entries with keys in ascii order'''
+        '''Custom iterator for word entries with keys in ascii order'''
         for k,v in sorted(self.words.items(), key=lambda x: x[0]):
             yield (k,v)
 
